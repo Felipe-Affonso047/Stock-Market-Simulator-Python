@@ -9,6 +9,7 @@ import math
 user_money = float(0)
 user_shares = float(0)
 
+
 def broker():
     global user_money
     global user_shares
@@ -18,35 +19,55 @@ def broker():
     price_of_bid = float(input("For how much each share?"))
     user_money = user_money - (number_of_shares_to_buy * price_of_bid)
     user_shares = number_of_shares_to_buy + user_shares
-    
+
     main()
 
 
-def add_money():
+def withdraw():
     global user_money
 
-    money_to_add = float(input("\nHow much money do you want to add?"))
+    money_to_subtract = float(input(
+        "\nHow much money do you want to withdraw from this account?"))
+
+    user_money = user_money - money_to_subtract
+
+    main()
+
+
+def transfer():
+    global user_money
+
+    money_to_add = float(input(
+        "\nHow much money do you want to transfer for this account?"))
 
     user_money = user_money + money_to_add
-    
+
     main()
+
 
 def main():
     global user_money
     global user_shares
     command = 0
-    
+
     print("\nYour portifilio:")
     print("Money: ${:,.2f}".format(user_money))
     print("Shares: {}".format(user_shares))
 
     command = input("\nWaiting for command: ")
 
-    if command == "buy shares":
+    if command == "broker":
         broker()
 
-    if command == "add money":
-        add_money()
+    if command == "transfer":
+        transfer()
+
+    if command == "withdraw":
+        withdraw()
+
+    print("Invalid command")
+
+    main()
 
 
 if __name__ == "__main__":
