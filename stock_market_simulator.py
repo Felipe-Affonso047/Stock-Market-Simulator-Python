@@ -5,6 +5,7 @@
 # This program simulates the Stock Market
 
 import math
+import random
 
 user_money = float(0)
 user_shares = float(0)
