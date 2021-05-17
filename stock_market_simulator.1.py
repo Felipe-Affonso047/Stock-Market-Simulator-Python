@@ -5,7 +5,7 @@
 # This program simulates the Stock Market
 
 import math
-import stock
+from stock import *
 import random
 
 user_money = float(0)
@@ -16,15 +16,15 @@ def selling_stocks():
     global user_money
     global user_shares
 
-    stock.flutuation()
+    fluctuation()
 
-    share = input("\nWich share do you want to sell?")
+    share = input("\nWhich share do you want to sell?")
 
     if share == "company1":
-        print("Share value: ${:,.2f}".format(stock.company1_price))
+        print("Share value: ${:,.2f}".format(company1_price))
         number_of_shares_to_buy = int(input("How many shares do you want?"))
         price_of_bid = float(input("For how much each share?"))
-        if price_of_bid >= stock.company1_price:
+        if price_of_bid >= company1_price:
             user_money = user_money - (number_of_shares_to_buy * price_of_bid)
             user_shares = number_of_shares_to_buy + user_shares
             print("comfirmed transaction")
@@ -39,15 +39,15 @@ def buying_stocks():
     global user_money
     global user_shares
 
-    stock.flutuation()
+    fluctuation()
 
-    share = input("\nWich share do you want to bid in?")
+    share = input("\nWhich share do you want to bid in?")
 
     if share == "company1":
-        print("Share value: ${:,.2f}".format(stock.company1_price))
+        print("Share value: ${:,.2f}".format(company1_price))
         number_of_shares_to_buy = int(input("How many shares do you want?"))
         price_of_bid = float(input("For how much each share?"))
-        if price_of_bid >= stock.company1_price:
+        if price_of_bid >= company1_price:
             user_money = user_money - (number_of_shares_to_buy * price_of_bid)
             user_shares = number_of_shares_to_buy + user_shares
             print("comfirmed transaction")
@@ -64,7 +64,7 @@ def broker():
     global user_money
     global user_shares
 
-    stock.flutuation()
+    fluctuation()
 
     command = input("\nCommand for broker:")
 
@@ -75,7 +75,7 @@ def broker():
     elif command == "portifolio":
         main()
     elif command == "list stocks":
-        print("company1: ${:,.2f}".format(stock.company1_price))
+        print("company1: ${:,.2f}".format(company1_price))
     elif command == "ls":
         print("buy stocks\nsell stocks\nlist stocks\nportifolio\nls")
     else:
@@ -87,7 +87,7 @@ def broker():
 def withdraw():
     global user_money
 
-    stock.flutuation()
+    fluctuation()
 
     money_to_subtract = float(input(
         "\nHow much money do you want to withdraw from this account?"))
@@ -100,7 +100,7 @@ def withdraw():
 def transfer():
     global user_money
 
-    stock.flutuation()
+    fluctuation()
 
     money_to_add = float(input(
         "\nHow much money do you want to transfer for this account?"))
@@ -117,14 +117,14 @@ def main():
     total_user_money = 0
     command = 0
 
-    stock.flutuation()
+    fluctuation()
 
-    user_shares_value = stock.company1_price * user_shares
+    user_shares_value = company1_price * user_shares
     total_user_money = user_money + user_shares_value
 
     print("\nYour portifilio:")
     print("Money: ${:,.2f}".format(user_money))
-    print("Shares:")
+    print("Shares: {}".format(user_shares))
     print("Shares value: ${:,.2f}".format(user_shares_value))
     print("Total: ${:,.2f}".format(total_user_money))
 
@@ -137,7 +137,7 @@ def main():
     elif command == "withdraw":
         withdraw()
     elif command == "company1 price":
-        print("company1: ${:,.2f}".format(stock.company1_price))
+        print("company1: ${:,.2f}".format(company1_price))
     elif command == "ls":
         print("broker\ntransfer\nwithdraw\ncompany1 price\nls")
     else:
