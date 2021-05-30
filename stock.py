@@ -12,7 +12,7 @@ company3_price = 50
 company4_price = 40
 
 
-def flutuation():
+def fluctuation():
     global company1_price
     global company2_price
     global company3_price
@@ -32,7 +32,7 @@ def flutuation():
         company4_price = company4_price - company4_price + random.randint(0, 9)
     
 
-def flutuation_test():
+def fluctuation_test():
     global company1_price
     global company2_price
     global company3_price
@@ -53,4 +53,4 @@ def flutuation_test():
     
     print("{0}, {1}, {2}, {3}".format(company1_price, company2_price, company3_price, company4_price))
     input()
-    flutuation_test()
+    fluctuation_test()
