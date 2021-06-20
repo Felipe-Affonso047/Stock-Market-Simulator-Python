@@ -22,12 +22,12 @@ company4 = {
 company_list = [company1] + [company2] + [company3] + [company4]
 
 
-def decimal_rounding(numbers):
+def decimal_rounding(numbers, decimals):
     # this function rounds decimals
-    rounding_float = float((numbers[0] * pow(10, numbers[1])) + 0.5)
+    rounding_float = float((numbers * pow(10, decimals)) + 0.5)
     rounding_int = int(rounding_float)
-    rounded_number = rounding_int / pow(10, numbers[1])
-    numbers[0] = rounded_number
+    rounded_number = rounding_int / pow(10, decimals)
+    return rounded_number
 
 
 def fluctuation():
