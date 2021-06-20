@@ -5,6 +5,28 @@
 # This program simulates a Stock Market Broker
 
 from tkinter import *
+import time
+
+
+def broker(cash):
+    import stock
+    broker_scene = Tk()
+
+    while True:
+        for widgets in broker_scene.winfo_children():
+            widgets.destroy()
+        stock.fluctuation()
+
+        text_color = "green"
+
+        for company in range(len(stock.company_list)):
+            text = stock.company_list[company]["name"] + "\n" + str(stock.company_list[company]["price"])
+            company_text = Label(broker_scene, text=text, background="#000000", fg=text_color, font=("", 20))
+            company_text.grid(row=1, column=company)
+
+        broker_scene.update_idletasks()
+        broker_scene.update()
+        time.sleep(0.5)
 
 
 def money_printer():
@@ -15,6 +37,8 @@ def money_printer():
     def submit():
         try:
             result = float(answer.get())
+            money_printer_scene.destroy()
+            return broker(result)
         except Exception:
             error = Label(text="ERROR\nTry entering a number.", font=("", 20), background="#FF0101")
             error.grid()
@@ -33,8 +57,7 @@ def money_printer():
 def start():
     def start_button_fun():
         start_scene.destroy()
-        money_printer()
-        return
+        return money_printer()
 
     start_scene = Tk()
 
