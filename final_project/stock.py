@@ -34,14 +34,6 @@ def decimal_rounding(numbers, decimals):
     return rounded_number
 
 
-def weird_decimal_rounding(numbers, decimals):
-    # this function rounds decimals
-    rounding_float = float((numbers * pow(10, decimals)) + 0.9999)
-    rounding_int = int(rounding_float)
-    rounded_number = rounding_int / pow(10, decimals)
-    return rounded_number
-
-
 def fluctuation():
     global company_list
 

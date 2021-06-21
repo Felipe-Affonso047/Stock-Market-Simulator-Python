@@ -12,13 +12,25 @@ def broker(inicial_cash):
     import stock
 
     stock.portfolio["cash"] = inicial_cash
+    stock.portfolio["total"] = inicial_cash
 
     def buy_stocks():
         buy_stocks_scene = Toplevel()
 
         def buy_logic():
-            buy_stocks_scene.destroy()
-            broker_scene.destroy()
+            try:
+                company_name = stock_name.get()
+                quantity_float = float(quantity.get())
+                for company in range(len(stock.company_list)):
+                    if stock.company_list[company]["name"] == company_name:
+                        total_price = quantity_float * stock.company_list[company]["price"]
+                        if stock.portfolio["cash"] >= total_price:
+                            stock.portfolio["cash"] += - total_price
+                            stock.company_list[company]["users"] += quantity_float
+                buy_stocks_scene.destroy()
+                broker_scene.destroy()
+            except:
+                error.pack()
     
         stock_name = StringVar()
         quantity = StringVar()
@@ -28,6 +40,7 @@ def broker(inicial_cash):
         quantity_text = Label(buy_stocks_scene, text="Insert the quantity of stocks you want to buy:")
         quantity_inser = Entry(buy_stocks_scene, border=5, font=("", 20), textvariable=quantity)
         buy_button_2 = Button(buy_stocks_scene, text="BUY", font=("", 20), command=buy_logic, background="#01C801")
+        error = Label(text="ERROR\nTry again please.", font=("", 20), background="#FF0101")
 
         stock_name_text.pack()
         stock_name_inser.pack()
@@ -42,8 +55,19 @@ def broker(inicial_cash):
         sell_stocks_scene = Toplevel()
 
         def sell_logic():
-            sell_stocks_scene.destroy()
-            broker_scene.destroy()
+            try:
+                company_name = stock_name.get()
+                quantity_float = float(quantity.get())
+                for company in range(len(stock.company_list)):
+                    if stock.company_list[company]["name"] == company_name:
+                        total_price = quantity_float * stock.company_list[company]["price"]
+                        if stock.company_list[company]["users"] <= quantity_float:
+                            stock.portfolio["cash"] += total_price
+                            stock.company_list[company]["users"] += - quantity_float
+                sell_stocks_scene.destroy()
+                broker_scene.destroy()
+            except:
+                error.pack()
     
         stock_name = StringVar()
         quantity = StringVar()
@@ -53,6 +77,7 @@ def broker(inicial_cash):
         quantity_text = Label(sell_stocks_scene, text="Insert the quantity of stocks you want to sell:")
         quantity_inser = Entry(sell_stocks_scene, border=5, font=("", 20), textvariable=quantity)
         buy_button_2 = Button(sell_stocks_scene, text="SELL", font=("", 20), command=sell_logic, background="#960132")
+        error = Label(text="ERROR\nTry again please.", font=("", 20), background="#FF0101")
 
         stock_name_text.pack()
         stock_name_inser.pack()
@@ -79,6 +104,11 @@ def broker(inicial_cash):
                 temp_companies[company] = stock.company_list[company]["price"]
 
         stock.fluctuation()
+
+        stock.portfolio["total"] = stock.portfolio["cash"]
+        for company in range(len(stock.company_list)):
+            part_of_total = stock.company_list[company]["users"] * stock.company_list[company]["price"]
+            stock.portfolio["total"] = stock.portfolio["total"] + part_of_total
 
         try:
             for widgets in broker_scene.winfo_children():
