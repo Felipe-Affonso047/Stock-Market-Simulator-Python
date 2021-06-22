@@ -14,6 +14,23 @@ def broker(inicial_cash):
     stock.portfolio["cash"] = inicial_cash
     stock.portfolio["total"] = inicial_cash
 
+    def game_event(list):
+        event_scene = Toplevel()
+
+        def exit_event():
+            event_scene.destroy()
+            broker_scene.destroy()
+
+        event_company_name = Label(event_scene, text=list[1], font=("", 30))
+        event_text = Label(event_scene, text=list[2])
+        event_button = Button(event_scene, text="EXIT", command=exit_event)
+
+        event_company_name.pack()
+        event_text.pack()
+        event_button.pack()
+
+        event_scene.mainloop()
+
     def buy_stocks():
         buy_stocks_scene = Toplevel()
 
@@ -104,11 +121,17 @@ def broker(inicial_cash):
                 temp_companies[company] = stock.company_list[company]["price"]
 
         stock.fluctuation()
+        event_happen = stock.event()
+
+        if event_happen[0] == "true":
+            game_event(event_happen)
 
         stock.portfolio["total"] = stock.portfolio["cash"]
         for company in range(len(stock.company_list)):
             part_of_total = stock.company_list[company]["users"] * stock.company_list[company]["price"]
             stock.portfolio["total"] = stock.portfolio["total"] + part_of_total
+
+        stock.portfolio["total"] = stock.decimal_rounding(stock.portfolio["total"], 2)
 
         try:
             for widgets in broker_scene.winfo_children():
@@ -141,6 +164,7 @@ def broker(inicial_cash):
             text = stock.company_list[company]["name"] + "\n" + str(stock.company_list[company]["price"])
             shares_text = "Shares: " + str(stock.company_list[company]["users"])
             shares_value = stock.company_list[company]["users"] * stock.company_list[company]["price"]
+            shares_value = stock.decimal_rounding(shares_value, 2)
             shares_value_text = "Value: " + str(shares_value)
 
             company_text = Label(broker_scene, text=text, background="#000000", fg=text_color, font=("", 20), width=7)
@@ -169,15 +193,15 @@ def money_printer():
     answer = StringVar()
 
     def submit():
-        #try:
+        try:
             result = float(answer.get())
             money_printer_scene.destroy()
             return broker(result)
-        #except Exception:
-            #error = Label(text="ERROR\nTry entering a number.", font=("", 20), background="#FF0101")
-            #error.grid()
+        except Exception:
+            error = Label(text="ERROR\nTry entering a number.", font=("", 20), background="#FF0101")
+            error.grid()
 
-    question = Label(text="How much money you want to start with?", font=("", 20), background="#01C801")
+    question = Label(text="How much money do you want to start with?", font=("", 20), background="#01C801")
     response_box = Entry(border=5, font=("", 20), textvariable=answer)
     submit_num = Button(text="SUBMIT", width=20, font=("", 12), border=5, background="#960132", command=submit)
 
